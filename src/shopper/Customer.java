@@ -8,7 +8,6 @@ public class Customer {
 	 * 
 	 * @param s customer name
 	 * @param n number of items for checkout
-	 * @param t type of trolley being used
 	 */
 	public Customer(String s, int n) {
 		name = s;
