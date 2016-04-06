@@ -51,6 +51,7 @@ public class ShopTest {
 	@Test
 	public void testAddCustomer() {
 		shop.addCustomer(customers.get(0));
+		assertNotNull("Main queue ready?", shop.getMainQueue());
 		assertEquals("First person added?", shop.getMainQueue().size(), 1);
 		assertEquals("Correct customer?", customers.get(0), shop.getMainQueue().get(0));
 		assertEquals("Correct name?", "Susan", shop.getMainQueue().get(0).getName());
@@ -100,6 +101,8 @@ public class ShopTest {
 		for (int i = 0; i<10; i++) {
 			shop.addCustomer(customers.get(i));
 		}
+		assertNotNull("Main queue initialized?", shop.getMainQueue());
+		assertNotNull("Overflow queue initialized?", shop.getOverflow());
 		assertEquals("Customer count?", 10, shop.getMainQueue().size()+shop.getOverflow().size());
 		shop.openQuickCheck();
 		assertEquals("Main queue reduced by 3", 2, shop.getMainQueue().size());
