@@ -53,7 +53,7 @@ public class ShopTest {
 		shop.addCustomer(customers.get(0));
 		assertEquals("First person added?", shop.getMainQueue().size(), 1);
 		assertEquals("Correct customer?", customers.get(0), shop.getMainQueue().get(0));
-		assertEquals("Correct name?", "Sally", shop.getMainQueue().get(0).getName());
+		assertEquals("Correct name?", "Susan", shop.getMainQueue().get(0).getName());
 		assertNull("Overflow queue is closed?", shop.getOverflow());
 		assertNull("Quickcheck queue is closed?", shop.getQuickCheck());
 		shop.addCustomer(customers.get(1));
