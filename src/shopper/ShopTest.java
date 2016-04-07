@@ -3,7 +3,6 @@ package shopper;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,7 @@ public class ShopTest {
 		customers.add(new Customer("George", 5));
 		customers.add(new Customer("Casandra", 3));
 		customers.add(new Customer("Jody", 43));
+		customers.add(null); //entries might be null
 		customers.add(new Customer("Whitford", 2));
 		customers.add(new Customer("Ladasia", 17));
 		customers.add(new Customer("Amy", 15));
@@ -105,8 +105,9 @@ public class ShopTest {
 		assertNotNull("Overflow queue initialized?", shop.getOverflow());
 		assertEquals("Customer count?", 10, shop.getMainQueue().size()+shop.getOverflow().size());
 		shop.openQuickCheck();
-		assertEquals("Main queue reduced by 3", 2, shop.getMainQueue().size());
-		assertEquals("Overflow queue reduced 3", 2, shop.getOverflow().size());
+		assertEquals("Removed 3 quicks from main?", 2, shop.getMainQueue().size());
+		assertEquals("Removed 3 quicks from overflow?", 2, shop.getOverflow().size());
+		assertEquals("Found all <10", 6, shop.getQuickCheck().size());
 	}
 
 }
