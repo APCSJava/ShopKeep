@@ -1,5 +1,6 @@
 package shopper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Shop {
@@ -13,6 +14,7 @@ public class Shop {
 	 */
 	public Shop() {
 		//TODO initialize the mainQueue with an empty list
+		mainQueue = new ArrayList<Customer>();
 	}
 	
 	/** Add a customer to the main queue.  If five or more
@@ -23,19 +25,33 @@ public class Shop {
 	 */
 	public void addCustomer(Customer c) {
 		//TODO implement
+		if (mainQueue.size()<5) mainQueue.add(c);
+		else {
+			if (overflow==null) overflow = new ArrayList<Customer>();
+			overflow.add(c);
+		}
 	}
 	
-	/** If this is the main queue, simply remove the first customer and
-	 * return its reference leaving the queue open and potentially
-	 * empty.  If this is either the overflow or quick check queue and no
-	 * customers remain, additionally "close" the queue (set to null)
+	/** Remove and return the first customer.  
 	 * 
-	 * @param till
+	 * If this is the main queue, leave the queue open, even if no 
+	 * customers remain.  However, if the action is on the overflow or 
+	 * quick check queue and the operation leaves no customers 
+	 * remaining in thta queue, additionally "close the queue" by
+	 * setting the queue to null.
+	 * 
+	 * @param till the affected queue 
 	 * @return the customer processed
 	 */
 	public Customer processNextCustomer(List<Customer> till) {
 		//TODO implement
-		return null;
+		Customer c = till.remove(0);
+		if (till.size()<=0) {
+			if (till.equals(overflow)) overflow = null;
+			else if (till.equals(quickCheck)) quickCheck = null;
+		}
+		return c;
+		
 	}
 	
 	/** Traverse the main till and the overflow till, in that
@@ -48,7 +64,22 @@ public class Shop {
 	 * ten items may appear in any order in the quick checkout.
 	 */
 	public void openQuickCheck(){
-		//TODO implement
+		if (this.quickCheck==null) { quickCheck=new ArrayList<Customer>();}
+		for (int i = 0; i<mainQueue.size(); i++) {
+			Customer c = mainQueue.get(i);
+			if (c!=null && c.getNumItems()<10) {
+				mainQueue.remove(i);
+				i--;
+				quickCheck.add(c);
+			}
+		}
+		for (int i = overflow.size()-1; i>=0; i--) {
+			Customer c = overflow.get(i);
+			if (c!=null && c.getNumItems()<10) {
+				overflow.remove(i);
+				quickCheck.add(c);
+			}
+		}
 	}
 	
 	public List<Customer> getMainQueue() {
